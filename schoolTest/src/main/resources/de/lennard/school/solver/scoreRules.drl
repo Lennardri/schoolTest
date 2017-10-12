@@ -1,11 +1,11 @@
-package de.viadee.uniplaner.solver
+package de.lennard.school.solver
 dialect "java"
 
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder
-import de.viadee.uniplaner.domain.Unterricht
-import de.viadee.uniplaner.domain.Klasse
-import de.viadee.uniplaner.domain.Raum
-import de.viadee.uniplaner.domain.Wochentag
+import de.lennard.school.domain.Unterricht
+import de.lennard.school.domain.Klasse
+import de.lennard.school.domain.Raum
+import de.lennard.school.domain.Wochentag
 
 global HardSoftScoreHolder scoreHolder
 

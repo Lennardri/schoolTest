@@ -1,4 +1,4 @@
-package de.viadee.uniplaner.domain;
+package de.lennard.school.domain;
 
 public class Termin {
 

@@ -1,4 +1,4 @@
-package de.viadee.uniplaner.solver;
+package de.lennard.school.solver;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,12 +11,12 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder;
 
-import de.viadee.uniplaner.domain.Klasse;
-import de.viadee.uniplaner.domain.Raum;
-import de.viadee.uniplaner.domain.Termin;
-import de.viadee.uniplaner.domain.Unterricht;
-import de.viadee.uniplaner.domain.Wochentag;
-import de.viadee.uniplaner.domain.ZeitIntervall;
+import de.lennard.school.domain.Klasse;
+import de.lennard.school.domain.Raum;
+import de.lennard.school.domain.Termin;
+import de.lennard.school.domain.Unterricht;
+import de.lennard.school.domain.Wochentag;
+import de.lennard.school.domain.ZeitIntervall;
 
 public class ScoreRulesTest {
 

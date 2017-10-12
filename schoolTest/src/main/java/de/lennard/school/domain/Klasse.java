@@ -1,14 +1,14 @@
-package de.viadee.uniplaner.domain;
+package de.lennard.school.domain;
 
-public class Raum {
+public class Klasse {
 
     private long id;
     private String name;
 
-    public Raum() {
+    public Klasse() {
     }
 
-    public Raum(long id, String name) {
+    public Klasse(long id, String name) {
         this.id = id;
         this.name = name;
     }

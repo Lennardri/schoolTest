@@ -1,4 +1,4 @@
-package de.viadee.uniplaner.domain;
+package de.lennard.school.domain;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;

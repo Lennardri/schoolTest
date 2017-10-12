@@ -1,4 +1,4 @@
-package de.viadee.uniplaner.solver;
+package de.lennard.school.solver;
 
 import java.io.FileReader;
 import java.sql.Connection;
@@ -22,13 +22,13 @@ import org.optaplanner.core.api.solver.SolverFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.viadee.uniplaner.domain.Klasse;
-import de.viadee.uniplaner.domain.Raum;
-import de.viadee.uniplaner.domain.Termin;
-import de.viadee.uniplaner.domain.Unterricht;
-import de.viadee.uniplaner.domain.Unterrichtsplan;
-import de.viadee.uniplaner.domain.Wochentag;
-import de.viadee.uniplaner.domain.ZeitIntervall;
+import de.lennard.school.domain.Klasse;
+import de.lennard.school.domain.Raum;
+import de.lennard.school.domain.Termin;
+import de.lennard.school.domain.Unterricht;
+import de.lennard.school.domain.Unterrichtsplan;
+import de.lennard.school.domain.Wochentag;
+import de.lennard.school.domain.ZeitIntervall;
 
 public class SolverTest {
 
@@ -86,7 +86,7 @@ public class SolverTest {
 
             // 2) Solver-Objekt erzeugen
             SolverFactory solverFactory = SolverFactory
-                    .createFromXmlResource("de/viadee/uniplaner/solver/solverConfig.xml");
+                    .createFromXmlResource("de/lennard/school/solver/solverConfig.xml");
             Solver solver = solverFactory.buildSolver();
 
             // 3) Optimierung starten
