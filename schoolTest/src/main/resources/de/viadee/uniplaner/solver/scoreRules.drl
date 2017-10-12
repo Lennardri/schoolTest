@@ -1,0 +1,93 @@
+package de.viadee.uniplaner.solver
+dialect "java"
+
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder
+import de.viadee.uniplaner.domain.Unterricht
+import de.viadee.uniplaner.domain.Klasse
+import de.viadee.uniplaner.domain.Raum
+import de.viadee.uniplaner.domain.Wochentag
+
+global HardSoftScoreHolder scoreHolder
+
+
+// HARD CONSTRAINTS
+
+// Der Constraint "Jeder Unterricht müssen ein Termin und ein Raum zugeordnet sein." wird implizit
+// durch OptaPlanner sichergestellt, da jeder Planungsvariable ein Wert zugewiesen sein muss. 
+
+// Zwei Unterrichten dürfen nicht zeitgleich im gleichen Raum stattfinden.
+// Jeder Raumkonflikt zählt als 1 Constraint-Match.
+// Fachunterricht muss in Fachr�uumen sein 
+// sport immer doppelt 
+//5-9 keine freistunden
+rule "RaumKonflikt"
+	when
+		$v1	: Unterricht(termin != null, raum != null)
+		$v2 : Unterricht(id > $v1.id, termin == $v1.termin, raum == $v1.raum)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+// Unterrichten des gleichen Klasses dürfen nicht am gleichen Termin stattfinden.
+// Jeder Terminkonflikt zählt als 1 Constraint-Match.
+rule "TerminKonflikt"
+	when
+		$v1	: Unterricht(termin != null)
+		$v2 : Unterricht(id > $v1.id, termin == $v1.termin, klasse == $v1.klasse)
+	then
+	   scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+
+// SOFT CONSTRAINTS
+
+// Die Unterrichten eines Klasses sollten im gleichen Raum stattfinden.
+// Jeder zusätzliche Raum, der für Unterrichten eines Klasses verwendet wird, zählt als 1 Constraint-Match.
+// wenig freistunden
+//
+rule "RaumKontinuitaet"
+	when
+		$klasse : Klasse()
+		accumulate (
+			$raum : Raum() and exists Unterricht(klasse == $klasse, raum == $raum);
+			$c : count();
+			$c > 1 
+		)
+	then
+	   scoreHolder.addSoftConstraintMatch(kcontext, -($c.intValue() - 1));
+end
+
+// Die Unterrichten eines Klasses sollten an möglichst wenigen Wochentagen stattfinden.
+// Jeder zusätzliche Tag zählt als 1 Constraint-Match.
+rule "WochenKompaktheit"
+	when
+		$klasse : Klasse()
+		accumulate (
+			$tag : Wochentag() and exists Unterricht(klasse == $klasse, tag == $tag);
+			$c : count();
+			$c > 1 
+		)
+	then
+	   scoreHolder.addSoftConstraintMatch(kcontext, -($c.intValue() - 1));
+end
+
+// Die Unterrichten eines Klasses am gleichen Tag sollten aufeinander folgen; es sollte möglichst wenig Freistunden zwischen zwei Unterrichten geben.
+// Jede "isoliert" stattfindende Unterricht zählt als 1 Constraint-Match.
+rule "TagKompaktheit"
+	when
+		$unterricht : Unterricht($klasse : klasse, $tag : tag, $intervallIndex : intervallIndex)
+
+		// Es existiert eine Unterricht des gleichen Klasses am gleichen Tag, die zu einer anderen Zeit stattfindet.
+		exists (
+			Unterricht(klasse == $klasse, tag == $tag, intervallIndex != $intervallIndex)
+		)
+
+		// Es existiert KEINE Unterricht des gleichen Klasses am gleichen Tag, die direkt vor oder nach der aktuellen Unterricht stattfindet.
+		not (
+			exists (
+				Unterricht(klasse == $klasse, tag == $tag, (intervallIndex == $intervallIndex - 1) || (intervallIndex == $intervallIndex + 1))
+			)
+		)
+	then
+	   scoreHolder.addSoftConstraintMatch(kcontext, -1);
+end
