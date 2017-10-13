@@ -17,7 +17,7 @@ global HardSoftScoreHolder scoreHolder
 
 // Zwei Unterrichten dürfen nicht zeitgleich im gleichen Raum stattfinden.
 // Jeder Raumkonflikt zählt als 1 Constraint-Match.
-// Fachunterricht muss in Fachr�uumen sein 
+// Fachunterricht muss in Fachraeumen sein 
 // sport immer doppelt 
 //5-9 keine freistunden
 rule "RaumKonflikt"
@@ -41,15 +41,16 @@ end
 
 // SOFT CONSTRAINTS
 
-// Die Unterrichten eines Klasses sollten im gleichen Raum stattfinden.
-// Jeder zusätzliche Raum, der für Unterrichten eines Klasses verwendet wird, zählt als 1 Constraint-Match.
-// wenig freistunden
+// Die Unterrichten einer Klasse sollten im gleichen Raum stattfinden.
+// Jeder zusätzliche Raum, der für frn Unterricht eines Klasse verwendet wird, zählt als 1 Constraint-Match.
+// weniger Freistunden
 //
 rule "RaumKontinuitaet"
 	when
 		$klasse : Klasse()
 		accumulate (
-			$raum : Raum() and exists Unterricht(klasse == $klasse, raum == $raum);
+			$raum : Raum() 
+			and exists Unterricht(klasse == $klasse, raum == $raum);
 			$c : count();
 			$c > 1 
 		)
@@ -63,7 +64,8 @@ rule "WochenKompaktheit"
 	when
 		$klasse : Klasse()
 		accumulate (
-			$tag : Wochentag() and exists Unterricht(klasse == $klasse, tag == $tag);
+			$tag : Wochentag() 
+			and exists Unterricht(klasse == $klasse, tag == $tag);
 			$c : count();
 			$c > 1 
 		)
@@ -77,12 +79,12 @@ rule "TagKompaktheit"
 	when
 		$unterricht : Unterricht($klasse : klasse, $tag : tag, $intervallIndex : intervallIndex)
 
-		// Es existiert eine Unterricht des gleichen Klasses am gleichen Tag, die zu einer anderen Zeit stattfindet.
+		// Es existiert ein Unterricht der gleichen Klasse am gleichen Tag, die zu einer anderen Zeit stattfindet.
 		exists (
 			Unterricht(klasse == $klasse, tag == $tag, intervallIndex != $intervallIndex)
 		)
 
-		// Es existiert KEINE Unterricht des gleichen Klasses am gleichen Tag, die direkt vor oder nach der aktuellen Unterricht stattfindet.
+		// Es existiert KEIN Unterricht der gleichen Klasses am gleichen Tag, die direkt vor oder nach der aktuellen Unterricht stattfindet.
 		not (
 			exists (
 				Unterricht(klasse == $klasse, tag == $tag, (intervallIndex == $intervallIndex - 1) || (intervallIndex == $intervallIndex + 1))
