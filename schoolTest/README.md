@@ -4,9 +4,6 @@ Beispielprojekt für JBoss OptaPlanner: Raum- und Terminplanung an einer Schule.
 
 -----
 
-
------
-
 **BEISPIELSZENARIO**
 
 Das Projekt implementiert beispielhaft die (stark vereinfachte) Raum- und Terminplanung an einer Schule
