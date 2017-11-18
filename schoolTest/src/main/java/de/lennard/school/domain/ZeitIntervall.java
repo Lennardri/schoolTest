@@ -2,9 +2,9 @@ package de.lennard.school.domain;
 
 public enum ZeitIntervall {
 
-    erste_stunde(1, "07:30-8:15"), zweite_stunde(2, "8:20-11:55"), dritte_stunde(3, "12:10-13:45"), vierte_stunde(
+    erste_stunde(1, "07:30-08:15"), zweite_stunde(2, "08:20-09:05"), dritte_stunde(3, "09:20-10:05"), vierte_stunde(
             4,
-            "13:15-14:50"), SECHZEHN_UHR(5, "16:00-18:00"), ACHTZEHN_UHR(6, "18:00-20:00");
+            "10:10-10:55"), fünfte_stunde(5, "11:10-11:45"), sechste_stunde(6, "12:00_12:45");
 
     private int id;
     private String name;

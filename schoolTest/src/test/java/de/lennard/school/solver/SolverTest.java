@@ -66,6 +66,11 @@ public class SolverTest {
             }
 
             List<Raum> raumListe = queryRunner.query(conn, "SELECT * FROM raum", new BeanListHandler<>(Raum.class));
+            // Tabelle Raum ausgeben
+            for (Raum raum : raumListe) {
+                System.out.println(raum.getName());
+
+            }
 
             List<Termin> terminListe = new ArrayList<>();
             for (Wochentag tag : Wochentag.values()) {
